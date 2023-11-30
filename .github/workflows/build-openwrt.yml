@@ -31,6 +31,7 @@ env:
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
   UPLOAD_COWTRANSFER: false
+  UPLOAD_WENSHUSHU: true
   UPLOAD_WETRANSFER: false
   UPLOAD_RELEASE: false
   TZ: Asia/Shanghai
@@ -157,6 +158,17 @@ jobs:
         echo "::warning file=wetransfer.com::$(cat wetransfer.log | grep https)"
         echo "::set-output name=url::$(cat wetransfer.log | grep https | cut -f3 -d" ")"
 
+    - name: Upload firmware to Wenshushu
+      id: Wenshushu
+      if: steps.organize.outputs.status == 'success' && env.UPLOAD_WENSHUSHU == 'true' && !cancelled()
+      run: |
+        git clone https://github.com/Plixs/DLStransfer DLTF 
+        cd DLTF 
+        source DLStransfer.sh
+        TrsfOnShDef "wss -s -p 16 --silent --encrypt --encrypt-key=${{ secrets.DLTF_KEY }}  ${FIRMWARE}" 2>&1 | tee wenshushu.log
+        echo "::warning file=wenshushu.com::$(cat wenshushu.log | grep https)"
+        echo "::set-output name=url::$(cat wenshushu.log | grep https | cut -f3 -d" ")"
+
     - name: Generate release tag
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
@@ -165,6 +177,7 @@ jobs:
         touch release.txt
         [ $UPLOAD_COWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
         [ $UPLOAD_WETRANSFER = true ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
+        [ $UPLOAD_WENSHUSHU = true ] && echo "🔗 [WenShuShu](${{ steps.wenshushu.outputs.url }})" >> release.txt
         echo "::set-output name=status::success"
 
     - name: Upload firmware to release
