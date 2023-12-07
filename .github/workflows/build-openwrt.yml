@@ -57,7 +57,6 @@ jobs:
         sudo -E apt-get -qq purge azure-cli ghc* zulu* firefox powershell openjdk* dotnet* google* mysql* php* android*
         echo "not update go version" 
         sudo -E snap install go --classic
-        sudo ./update-golang.sh
         echo "updated go version" 
         sudo go version
         cd ..
