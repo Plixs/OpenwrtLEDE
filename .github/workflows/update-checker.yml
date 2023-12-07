@@ -29,6 +29,9 @@ jobs:
     - name: Get Commit Hash
       id: getHash
       run: |
+        REPO_BRANCH="$((curl -gs -H 'Content-Type: application/json' \
+              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              -X POST -d '{ "query": "query {repository(owner: \"openwrt\", name: \"openwrt\") {refs(refPrefix: \"refs/tags/\", last: 4, orderBy: {field: TAG_COMMIT_DATE, direction: ASC}) {edges {node {name}}}}}"}' https://api.github.com/graphql) | jq -r '.data.repository.refs.edges[].node.name' | grep v23 | tail -n 1)"
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH .
         echo "commitHash=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
