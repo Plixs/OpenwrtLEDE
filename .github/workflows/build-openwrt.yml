@@ -57,13 +57,17 @@ jobs:
         sudo -E apt-get -qq purge azure-cli ghc* zulu* firefox powershell openjdk* dotnet* google* mysql* php* android*
         echo "not update go version" 
         sudo go version
-        sudo -E snap install go --classic
+        git clone https://github.com/udhos/update-golang
+        cd update-golang
+        sudo ./update-golang.sh
+        cd .. 
         echo "updated go version" 
+        echo "cahced:"${{ contains(github.event.action, 'nocache') }}
         sudo go version
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
-        sudo timedatectl set-timezone "$TZ"
+        sudo timedatectl set-timezone "$TZ"${{ matrix.target }}
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
 
@@ -113,6 +117,15 @@ jobs:
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
+
+
+    - name: Cache
+      uses: stupidloud/cachewrtbuild@main
+      with:
+        ccache: 'true'
+        mixkey: 'OpenwrtPlus'
+        clean: ${{ contains(github.event.action, 'nocache') }}
+        prefix: ${{ github.workspace }}/openwrt  
 
     - name: Compile the firmware
       id: compile
