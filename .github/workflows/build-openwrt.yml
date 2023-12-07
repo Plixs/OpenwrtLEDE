@@ -56,6 +56,7 @@ jobs:
         libelf-dev device-tree-compiler libgnutls28-dev coccinelle libgmp3-dev libmpc-dev golang
         sudo -E apt-get -qq purge azure-cli ghc* zulu* firefox powershell openjdk* dotnet* google* mysql* php* android*
         echo "not update go version" 
+        sudo go version
         sudo -E snap install go --classic
         echo "updated go version" 
         sudo go version
