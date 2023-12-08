@@ -133,7 +133,6 @@ jobs:
       run: |
         echo "Compile step not update go version" 
         sudo go version
-        git clone https://github.com/udhos/update-golang
         cd update-golang
         sudo ./update-golang.sh
         cd .. 
