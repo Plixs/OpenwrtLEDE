@@ -106,9 +106,6 @@ jobs:
     - name: Download package
       id: package
       run: |
-        echo $PWD "current path"
-        echo "ls path"
-        ll
         cd openwrt
         make defconfig
         make download -j8
@@ -120,7 +117,7 @@ jobs:
       with:
         ccache: 'true'
         mixkey: 'OpenwrtPlus'
-        clean: $REPO_BRANCH
+        clean: $CLEAN_CACHE
         prefix: ${{ github.workspace }}/openwrt  
 
     - name: Compile the firmware
