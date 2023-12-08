@@ -140,6 +140,7 @@ jobs:
         echo "Compile step updated go version" 
         echo "cahced:"${{ contains(github.event.action, 'nocache') }}
         sudo go version
+          |
         cd openwrt
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 || make -j1 V=sc
