@@ -34,6 +34,7 @@ env:
   UPLOAD_WENSHUSHU: true
   UPLOAD_WETRANSFER: false
   UPLOAD_RELEASE: false
+  CLEAN_CACHE: 'true'
   TZ: Asia/Shanghai
 
 jobs:
@@ -115,7 +116,8 @@ jobs:
       with:
         ccache: 'true'
         mixkey: 'OpenwrtPlus'
-        clean: ${{ contains(github.event.action, 'nocache') }}
+        clean: $REPO_BRANCH
+        #${{ contains(github.event.action, 'nocache') }}
         prefix: ${{ github.workspace }}/openwrt  
 
     - name: Compile the firmware
