@@ -55,16 +55,7 @@ jobs:
         libpython3-dev rsync unzip zlib1g-dev swig aria2 jq subversion qemu-utils ccache rename \
         libelf-dev device-tree-compiler libgnutls28-dev coccinelle libgmp3-dev libmpc-dev
         sudo -E apt-get -qq purge azure-cli ghc* zulu* firefox powershell openjdk* dotnet* google* mysql* php* android*
-        echo "not update go version" 
-        sudo go version
-        git clone https://github.com/udhos/update-golang
-        cd update-golang
-        sudo ./update-golang.sh
-        cd .. 
-        echo "updated go version" 
-        source /etc/profile.d/golang_path.sh
         echo "cahced:"${{ contains(github.event.action, 'nocache') }}
-        sudo go version
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
@@ -119,7 +110,6 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
-
     - name: Cache
       uses: stupidloud/cachewrtbuild@main
       with:
@@ -127,21 +117,6 @@ jobs:
         mixkey: 'OpenwrtPlus'
         clean: ${{ contains(github.event.action, 'nocache') }}
         prefix: ${{ github.workspace }}/openwrt  
-
-    - name: Check Golang version
-      id: CheckGolang
-      env:
-        DEBIAN_FRONTEND: noninteractive
-      run: |
-        echo "Compile step not update go version" 
-        sudo go version
-        cd update-golang  
-        sudo ./update-golang.sh
-        cd .. 
-        source /etc/profile.d/golang_path.sh
-        echo "Compile step updated go version" 
-        echo "cahced:"${{ contains(github.event.action, 'nocache') }}
-        sudo go version
 
     - name: Compile the firmware
       id: compile
