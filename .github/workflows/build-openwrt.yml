@@ -129,6 +129,9 @@ jobs:
         prefix: ${{ github.workspace }}/openwrt  
 
     - name: Check Golang version
+      id: CheckGolang
+      env:
+        DEBIAN_FRONTEND: noninteractive
       run: |
         echo "Compile step not update go version" 
         sudo go version
