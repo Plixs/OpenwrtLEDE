@@ -34,7 +34,7 @@ env:
   UPLOAD_WENSHUSHU: true
   UPLOAD_WETRANSFER: false
   UPLOAD_RELEASE: false
-  CLEAN_CACHE: 'true'
+  CLEAN_CACHE: 'false'
   TZ: Asia/Shanghai
 
 jobs:
@@ -116,7 +116,7 @@ jobs:
       uses: stupidloud/cachewrtbuild@main
       with:
         ccache: 'true'
-        mixkey: 'OpenwrtPlus'
+        mixkey: 'x86_64'
         clean: $CLEAN_CACHE
         prefix: ${{ github.workspace }}/openwrt  
 
