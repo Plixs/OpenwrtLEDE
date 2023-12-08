@@ -22,7 +22,7 @@
 # source /etc/profile.d/golang_path.sh
 # sudo go version
 
-echo "not update go version" 
-sudo go version
-sudo snap install go --classic
-sudo go version
+# echo "not update go version" 
+# sudo go version
+# sudo snap install go --classic
+# sudo go version
