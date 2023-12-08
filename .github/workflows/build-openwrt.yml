@@ -130,10 +130,10 @@ jobs:
 
     - name: Compile the firmware
       id: compile
-      run: |
+      run: 
         echo "Compile step not update go version" 
         sudo go version
-        cd update-golang
+        cd update-golang  
         sudo ./update-golang.sh
         cd .. 
         source /etc/profile.d/golang_path.sh
