@@ -18,5 +18,5 @@ sudo go version
 git clone https://github.com/udhos/update-golang
 sudo ./update-golang/update-golang.sh
 echo "updated go version" 
-source /etc/profile.d/golang_path.sh
+sudo source /etc/profile.d/golang_path.sh
 sudo go version
