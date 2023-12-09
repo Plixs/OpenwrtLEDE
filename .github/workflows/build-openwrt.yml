@@ -117,7 +117,7 @@ jobs:
       with:
         ccache: 'true'
         mixkey: 'x86_64'
-        clean: $CLEAN_CACHE
+        clean: ${{ contains(github.event.action, 'nocache') }}
         prefix: ${{ github.workspace }}/openwrt  
 
     - name: Compile the firmware
